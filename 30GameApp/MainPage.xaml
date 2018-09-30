@@ -9,21 +9,20 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <Style TargetType="Grid" x:Key="BaseGrid">
-            <!--Setter Property="Margin" Value="100"/-->
             <Setter Property="Width" Value="300"/>
-            <Setter Property="BorderBrush" Value="Red"/>
-            <Setter Property="BorderThickness" Value="2"/>
         </Style>
         <Style TargetType="Button" x:Key="Number">
             <Setter Property="FontSize" Value="40"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="Margin" Value="4,8,4,8"/>
         </Style>
         <Style TargetType="Button" x:Key="Start">
             <Setter Property="Width" Value="200"/>
             <Setter Property="Height" Value="75"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="4,8,4,8"/>
         </Style>
         <Style TargetType="TextBlock" x:Key="CurrentNumber">
             <Setter Property="TextAlignment" Value="Center"/>
@@ -52,7 +51,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid x:Name="_grdStart" Style="{StaticResource BaseGrid}" Grid.Row="1" Grid.Column="1">
-                <Button x:Name="_btnStart" Content="Start" Style="{StaticResource Start}"></Button>
+                <Button x:Uid="_btnStart" x:Name="_btnStart" Content="Start" Style="{StaticResource Start}"></Button>
             </Grid>
             <Grid x:Name="_grdGame"  Style="{StaticResource BaseGrid}" Grid.Row="1" Grid.Column="1">
                 <Grid>
@@ -67,10 +66,10 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <TextBlock x:Name="_tbcCurrentNumber" Text="1" Style="{StaticResource CurrentNumber}" Grid.Row="0" Grid.ColumnSpan="3"/>
-                    <Button x:Name="_btnPushLeft" Content="XX"  Style="{StaticResource Number}" Margin="8,8,0,8" Grid.Row="1" Grid.Column="0"/>
-                    <Button x:Name="_btnPushCenter" Content="XX" Style="{StaticResource Number}" Margin="8,8,0,8" Grid.Row="1" Grid.Column="1"/>
-                    <Button x:Name="_btnPushRight" Content="XX" Style="{StaticResource Number}" Margin="8,8,8,8" Grid.Row="1" Grid.Column="2"/>
-                    <Button x:Name="_btnNext" Content="Next!!" Style="{StaticResource Start}" Grid.Row="2" Grid.ColumnSpan="3"/>
+                    <Button x:Name="_btnPushLeft" Content="XX"  Style="{StaticResource Number}" Grid.Row="1" Grid.Column="0"/>
+                    <Button x:Name="_btnPushCenter" Content="XX" Style="{StaticResource Number}" Grid.Row="1" Grid.Column="1"/>
+                    <Button x:Name="_btnPushRight" Content="XX" Style="{StaticResource Number}" Grid.Row="1" Grid.Column="2"/>
+                    <Button x:Uid="_btnNext" x:Name="_btnNext" Content="Next!!" Style="{StaticResource Start}" Grid.Row="2" Grid.ColumnSpan="3"/>
                 </Grid>
             </Grid>
             <Grid x:Name="_grdResult" Style="{StaticResource BaseGrid}" Grid.Row="1" Grid.Column="1">

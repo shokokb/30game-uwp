@@ -11,13 +11,35 @@
         <Style TargetType="Grid" x:Key="BaseGrid">
             <!--Setter Property="Margin" Value="100"/-->
             <Setter Property="Width" Value="300"/>
-            <Setter Property="BorderBrush" Value="LightGray"/>
+            <Setter Property="BorderBrush" Value="Red"/>
             <Setter Property="BorderThickness" Value="2"/>
         </Style>
-
+        <Style TargetType="Button" x:Key="Number">
+            <Setter Property="FontSize" Value="40"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+        </Style>
+        <Style TargetType="Button" x:Key="Start">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="75"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="CurrentNumber">
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="72"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="Result">
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="72"/>
+        </Style>
     </Page.Resources>
     <Grid>
-        <Button x:Name="m_btnHelp" Content="Help" HorizontalAlignment="Left" Margin="1356,57,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="_btnHelp" x:Uid="_btnHelp" Content="Help" HorizontalAlignment="Left" Margin="1356,57,0,0" VerticalAlignment="Top"/>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -30,30 +52,41 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid x:Name="_grdStart" Style="{StaticResource BaseGrid}" Grid.Row="1" Grid.Column="1">
-                <Button x:Name="_btnStart" Content="Start" HorizontalAlignment="Stretch" ></Button>
+                <Button x:Name="_btnStart" Content="Start" Style="{StaticResource Start}"></Button>
             </Grid>
             <Grid x:Name="_grdGame"  Style="{StaticResource BaseGrid}" Grid.Row="1" Grid.Column="1">
-                <StackPanel BorderBrush="Blue" BorderThickness="2"   HorizontalAlignment="Stretch">
-                    <TextBlock x:Name="_tbcCurrentNumber" Text="Current Number" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center"></TextBlock>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Button x:Name="_btnPushLeft" Content="Number 1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0"/>
-                        <Button x:Name="_btnPushCenter" Content="Number 2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="1"/>
-                        <Button x:Name="_btnPushRight" Content="Number3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="2"/>
-                    </Grid>
-                    <Button x:Name="_btnNext" Content="Next!!" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock x:Name="_tbcCurrentNumber" Text="1" Style="{StaticResource CurrentNumber}" Grid.Row="0" Grid.ColumnSpan="3"/>
+                    <Button x:Name="_btnPushLeft" Content="XX"  Style="{StaticResource Number}" Margin="8,8,0,8" Grid.Row="1" Grid.Column="0"/>
+                    <Button x:Name="_btnPushCenter" Content="XX" Style="{StaticResource Number}" Margin="8,8,0,8" Grid.Row="1" Grid.Column="1"/>
+                    <Button x:Name="_btnPushRight" Content="XX" Style="{StaticResource Number}" Margin="8,8,8,8" Grid.Row="1" Grid.Column="2"/>
+                    <Button x:Name="_btnNext" Content="Next!!" Style="{StaticResource Start}" Grid.Row="2" Grid.ColumnSpan="3"/>
+                </Grid>
             </Grid>
             <Grid x:Name="_grdResult" Style="{StaticResource BaseGrid}" Grid.Row="1" Grid.Column="1">
-                <TextBlock x:Name="_tbcResult" Text="Win!!"></TextBlock>
-                <Button x:Name="_btnRestart" Content="Retart" HorizontalAlignment="Stretch"></Button>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="_tbcResult" Text="Win!!" Style="{StaticResource Result}" Grid.Row="0" Grid.ColumnSpan="2"/>
+                    <Button x:Uid="_btnReplay" x:Name="_btnReplay" Content="Replay" Style="{StaticResource Start}" Grid.Row="1" Grid.Column="0"/>
+                    <Button x:Uid="_btnQuit" x:Name="_btnQuit" Content="Qiit" Style="{StaticResource Start}" Grid.Row="1" Grid.Column="1"/>
+                </Grid>
             </Grid>
         </Grid>
         <TextBlock TextAlignment="Right" Text="30 Game Ver.1.0.0" VerticalAlignment="Bottom"></TextBlock>

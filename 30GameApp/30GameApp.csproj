@@ -106,8 +106,8 @@
     </AppxManifest>
     <None Include="30GameApp_TemporaryKey.pfx" />
     <None Include="ClassDiagram.cd" />
-    <PRIResource Include="Settings\ja-JP\Resources.resw" />
-    <PRIResource Include="Settings\en-US\Resources.resw" />
+    <PRIResource Include="Strings\ja-JP\Resources.resw" />
+    <PRIResource Include="Strings\en-US\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -36,6 +37,8 @@ namespace _30GameApp
         /// ボットがカウントする回数(1, 2, 3)
         /// </summary>
         private int _robotCountLimit = 0;
+
+        private ResourceLoader _resourceLoader = null;
 
         /// <summary>
         /// カウント回数(最大回数)
@@ -94,9 +97,9 @@ namespace _30GameApp
         }
 
         /// <summary>
-        /// 現在の値を取得する
+        /// 現在の数字
         /// </summary>
-        /// <returns></returns>
+        /// <returns>現在の数字</returns>
         private int CurrentNumber
         {
             get
@@ -125,6 +128,7 @@ namespace _30GameApp
             _btnPushCenter.Tapped += _btnPushNumber_Click;
             _btnPushRight.Click += _btnPushNumber_Click;
             _btnPushRight.Click += _btnPushNumber_Click;
+            _btnNext.Click += _btnNext_Click;
 
             // スタート画面を表示する
             SwitchBaseGrid(e_BaseGrid.Start);
@@ -137,6 +141,7 @@ namespace _30GameApp
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             _timer = new DispatcherTimer();
+            _resourceLoader = ResourceLoader.GetForCurrentView();
         }
 
         /// <summary>
@@ -162,19 +167,23 @@ namespace _30GameApp
         /// <param name="e">イベント変数</param>
         private void _btnPushNumber_Click(object sender, RoutedEventArgs e)
         {
-            var name = ((Button)sender).Name;
-            if (name == "_btnPushLeft")
-            {
-                SwitchGuestControl(e_GameStatus.GuestCountOne);
-            }
-            else if (name == "_btnPushCenter")
-            {
-                SwitchGuestControl(e_GameStatus.GuestCountTwo);
-            }
-            else if (name == "_btnPushRight")
-            {
-                SwitchGuestControl(e_GameStatus.GuestCountThree);
-            }
+            // 現在の数字の表示を更新する
+            _tbcCurrentNumber.Text = (CurrentNumber + 1).ToString();
+
+            String name = ((Button)sender).Name;
+            if (name == "_btnPushLeft") SwitchGuestControl(e_GameStatus.GuestCountOne);
+            else if (name == "_btnPushCenter") SwitchGuestControl(e_GameStatus.GuestCountTwo);
+            else SwitchGuestControl(e_GameStatus.GuestCountThree);
+        }
+
+        /// <summary>
+        /// ゲストが「つぎ」を押したときに、ボットが数え始める
+        /// </summary>
+        /// <param name="sender">イベントの発生元</param>
+        /// <param name="e">イベント変数</param>
+        private void _btnNext_Click(object sender, RoutedEventArgs e)
+        {
+            RobotCount();
         }
 
         /// <summary>
@@ -276,18 +285,21 @@ namespace _30GameApp
         /// <param name="e">イベント変数</param>
         private void _timer_Tick(object sender, object e)
         {
-            // 現在の数字の表示を更新する
-            _tbcCurrentNumber.Text = (CurrentNumber + 1).ToString();
-
             // ボットのカウント回数を更新し、
             // カウント回数をオーバーしていた場合はカウントを停止する。
-            if (++_robotCount >= _robotCountLimit)
+            _robotCount += 1;
+            if (_robotCount >= _robotCountLimit)
             {
                 _timer.Stop();
                 _robotCount = 0;
 
                 // ゲストの番となる
                 GuestCount();
+            }
+            else
+            {
+                // 現在の数字の表示を更新する
+                _tbcCurrentNumber.Text = (CurrentNumber + 1).ToString();
             }
         }
     }

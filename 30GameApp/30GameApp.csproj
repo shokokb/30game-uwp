@@ -8,7 +8,7 @@
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>_30GameApp</RootNamespace>
-    <AssemblyName>30GameApp</AssemblyName>
+    <AssemblyName>_30GameApp</AssemblyName>
     <DefaultLanguage>ja-JP</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17134.0</TargetPlatformVersion>
@@ -105,6 +105,9 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="30GameApp_TemporaryKey.pfx" />
+    <None Include="ClassDiagram.cd" />
+    <PRIResource Include="Settings\ja-JP\Resources.resw" />
+    <PRIResource Include="Settings\en-US\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />

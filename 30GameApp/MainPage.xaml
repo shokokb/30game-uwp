@@ -7,8 +7,55 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <Style TargetType="Grid" x:Key="BaseGrid">
+            <!--Setter Property="Margin" Value="100"/-->
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="BorderBrush" Value="LightGray"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
 
+    </Page.Resources>
     <Grid>
-
+        <Button x:Name="m_btnHelp" Content="Help" HorizontalAlignment="Left" Margin="1356,57,0,0" VerticalAlignment="Top"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="_grdStart" Style="{StaticResource BaseGrid}" Grid.Row="1" Grid.Column="1">
+                <Button x:Name="_btnStart" Content="Start" HorizontalAlignment="Stretch" ></Button>
+            </Grid>
+            <Grid x:Name="_grdGame"  Style="{StaticResource BaseGrid}" Grid.Row="1" Grid.Column="1">
+                <StackPanel BorderBrush="Blue" BorderThickness="2"   HorizontalAlignment="Stretch">
+                    <TextBlock x:Name="_tbcCurrentNumber" Text="Current Number" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center"></TextBlock>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Button x:Name="_btnPushLeft" Content="Number 1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0"/>
+                        <Button x:Name="_btnPushCenter" Content="Number 2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="1"/>
+                        <Button x:Name="_btnPushRight" Content="Number3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="2"/>
+                    </Grid>
+                    <Button x:Name="_btnNext" Content="Next!!" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2"/>
+                </StackPanel>
+            </Grid>
+            <Grid x:Name="_grdResult" Style="{StaticResource BaseGrid}" Grid.Row="1" Grid.Column="1">
+                <TextBlock x:Name="_tbcResult" Text="Win!!"></TextBlock>
+                <Button x:Name="_btnRestart" Content="Retart" HorizontalAlignment="Stretch"></Button>
+            </Grid>
+        </Grid>
+        <TextBlock TextAlignment="Right" Text="30 Game Ver.1.0.0" VerticalAlignment="Bottom"></TextBlock>
     </Grid>
 </Page>

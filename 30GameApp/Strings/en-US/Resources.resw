@@ -117,14 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Explanation" xml:space="preserve">
+    <value>It is a game that you lose if you say 30 by counting from 1 to 30 with the robot.
+First, please press Start button.
+Second, the robot read aloud numbers upto 3 items.
+Third, you select numbers as same and push Next button to take turns.
+Finally, you win if the robot say 30, but you lose if you say 30.</value>
+  </data>
   <data name="MessageLose" xml:space="preserve">
-    <value>Lose</value>
+    <value>You Lose!</value>
   </data>
   <data name="MessageNext" xml:space="preserve">
     <value>Next</value>
   </data>
   <data name="MessageWin" xml:space="preserve">
-    <value>Win</value>
+    <value>You Win!</value>
   </data>
   <data name="_btnHelp.Content" xml:space="preserve">
     <value>Help</value>

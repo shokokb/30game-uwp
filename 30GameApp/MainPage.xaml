@@ -87,6 +87,7 @@
                     <Button x:Uid="_btnQuit" x:Name="_btnQuit" Content="Qiit" Style="{StaticResource Start}" Grid.Row="1" Grid.Column="1"/>
                 </Grid>
             </Grid>
+            <ToggleSwitch x:Name="_tswPlaySound" Grid.Column="2" Header="ToggleSwitch" HorizontalAlignment="Left" Margin="314,0,0,66" Grid.Row="2" VerticalAlignment="Bottom" IsOn="True"/>
         </Grid>
         <TextBlock TextAlignment="Right" Text="30 Game Ver.1.0.0" VerticalAlignment="Bottom"></TextBlock>
         <MediaElement x:Name="_mediaElement" Height="36" Margin="0,36,0,0" VerticalAlignment="Top" Width="198"/>

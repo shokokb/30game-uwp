@@ -117,14 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Explanation" xml:space="preserve">
+    <value>1から30までを数えて「30」を言った方が負けるゲームです。
+最初に、かいしを押してください。
+次に、ロボットが数字を読み上げます。一度に読み上げるのは３つまでです。
+次に、あなたが数字を選びます。一度に選択できるのは３つまでです。つぎを押すと、ロボットの番になります。
+最後に、ロボットが30を言った場合はあなたの勝ち、あなたが30を言った場合は負けです。</value>
+  </data>
   <data name="MessageLose" xml:space="preserve">
-    <value>まけ</value>
+    <value>あなたのまけ</value>
   </data>
   <data name="MessageNext" xml:space="preserve">
     <value>つぎ</value>
   </data>
   <data name="MessageWin" xml:space="preserve">
-    <value>かち</value>
+    <value>あなたのかち</value>
   </data>
   <data name="_btnHelp.Content" xml:space="preserve">
     <value>ヘルプ</value>

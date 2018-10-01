@@ -65,7 +65,7 @@
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <TextBlock x:Name="_tbcCurrentNumber" Text="1" Style="{StaticResource CurrentNumber}" Grid.Row="0" Grid.ColumnSpan="3"/>
+                    <TextBlock x:Name="_tbcCurrentNumber" Text="{Binding Number}" Style="{StaticResource CurrentNumber}" Grid.Row="0" Grid.ColumnSpan="3"/>
                     <Button x:Name="_btnPushLeft" Content="XX"  Style="{StaticResource Number}" Grid.Row="1" Grid.Column="0"/>
                     <Button x:Name="_btnPushCenter" Content="XX" Style="{StaticResource Number}" Grid.Row="1" Grid.Column="1"/>
                     <Button x:Name="_btnPushRight" Content="XX" Style="{StaticResource Number}" Grid.Row="1" Grid.Column="2"/>
@@ -82,12 +82,13 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock x:Name="_tbcResult" Text="Win!!" Style="{StaticResource Result}" Grid.Row="0" Grid.ColumnSpan="2"/>
+                    <TextBlock x:Name="_tbcResult" Text="{Binding Result}" Style="{StaticResource Result}" Grid.Row="0" Grid.ColumnSpan="2"/>
                     <Button x:Uid="_btnReplay" x:Name="_btnReplay" Content="Replay" Style="{StaticResource Start}" Grid.Row="1" Grid.Column="0"/>
                     <Button x:Uid="_btnQuit" x:Name="_btnQuit" Content="Qiit" Style="{StaticResource Start}" Grid.Row="1" Grid.Column="1"/>
                 </Grid>
             </Grid>
         </Grid>
         <TextBlock TextAlignment="Right" Text="30 Game Ver.1.0.0" VerticalAlignment="Bottom"></TextBlock>
+        <MediaElement x:Name="_mediaElement" Height="36" Margin="0,36,0,0" VerticalAlignment="Top" Width="198"/>
     </Grid>
 </Page>

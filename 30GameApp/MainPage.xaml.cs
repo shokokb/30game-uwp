@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Popups;
+using Windows.Globalization;
+using Windows.Media.SpeechSynthesis;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // 空白ページの項目テンプレートについては、https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x411 を参照してください
@@ -25,6 +18,11 @@ namespace _30GameApp
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        /// <summary>
+        /// ビューモデル
+        /// </summary>
+        ViewModel _vm;
+
         /// <summary>
         /// ボットカウント用のカウンタ
         /// </summary>
@@ -139,6 +137,9 @@ namespace _30GameApp
 
             // スタート画面を表示する
             SwitchBaseGrid(e_BaseGrid.Start);
+
+            _vm = new ViewModel();
+            DataContext = _vm;
         }
 
         /// <summary>
@@ -148,6 +149,7 @@ namespace _30GameApp
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             _timer = new DispatcherTimer();
+            ApplicationLanguages.PrimaryLanguageOverride = "en";
         }
 
         /// <summary>
@@ -168,26 +170,54 @@ namespace _30GameApp
         /// </summary>
         /// <param name="sender">イベントの発生元</param>
         /// <param name="e">イベント変数</param>
-        private void _btnPushNumber_Tapped(object sender, TappedRoutedEventArgs e)
+        private async void _btnPushNumber_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Button btn = (Button)sender;
 
             // 現在の数字の表示を更新する
-            _tbcCurrentNumber.Text = btn.Content.ToString();
-            Debug.WriteLine(String.Format("Tapped:{0}", _tbcCurrentNumber.Text));
+            var newNumber = btn.Content.ToString();
+            _vm.Number = newNumber;
+            await ReadLoud(newNumber);
 
             if (_tbcCurrentNumber.Text == COUNT_JOKER.ToString())
             {
+                // ゲストが負けた場合
                 SwitchBaseGrid(e_BaseGrid.Result);
                 var resourceLoader = ResourceLoader.GetForCurrentView();
-                _tbcResult.Text = resourceLoader.GetString("MessageLose");
+                _vm.Result = resourceLoader.GetString("MessageLose");
             }
             else
             {
-                if (btn.Name == "_btnPushLeft") SwitchGuestControl(e_GameStatus.GuestCountOne);
-                else if (btn.Name == "_btnPushCenter") SwitchGuestControl(e_GameStatus.GuestCountTwo);
-                else SwitchGuestControl(e_GameStatus.GuestCountThree);
+                if (btn.Name == "_btnPushLeft")
+                {
+                    SwitchGuestControl(e_GameStatus.GuestCountOne);
+                }
+                else if (btn.Name == "_btnPushCenter")
+                {
+                    SwitchGuestControl(e_GameStatus.GuestCountTwo);
+                }
+                else
+                {
+                    SwitchGuestControl(e_GameStatus.GuestCountThree);
+                    await GoNext();
+                }
             }
+        }
+
+        /// <summary>
+        /// 読み上げる
+        /// </summary>
+        /// <param name="i_content">読み上げる内容</param>
+        /// <returns>タスク</returns>
+        private async Task ReadLoud(string i_content)
+        {
+            SpeechSynthesisStream myStream;
+            using (var mySynth = new SpeechSynthesizer())
+            {
+                myStream = await mySynth.SynthesizeTextToStreamAsync(i_content.ToString());
+            }
+            _mediaElement.SetSource(myStream, myStream.ContentType);
+            _mediaElement.Play();
         }
 
         /// <summary>
@@ -195,9 +225,19 @@ namespace _30GameApp
         /// </summary>
         /// <param name="sender">イベントの発生元</param>
         /// <param name="e">イベント変数</param>
-        private void _btnNext_Tapped(object sender, TappedRoutedEventArgs e)
+        private async void _btnNext_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            await GoNext();
+        }
+
+        /// <summary>
+        /// 「つぎ」を呼び出し、ボットのカウントに切り替える
+        /// </summary>
+        private async Task GoNext()
         {
             RobotCount();
+            var resourceLoader = ResourceLoader.GetForCurrentView();
+            await ReadLoud(resourceLoader.GetString("MessageNext"));
         }
 
         /// <summary>
@@ -205,10 +245,12 @@ namespace _30GameApp
         /// </summary>
         private void RobotCount()
         {
-            _robotCount = 0;
-
             // ゲスト押下用のコントロールを切り替える
             SwitchGuestControl(e_GameStatus.RobotCount);
+
+            // ボットのカウント数を初期化する
+            _robotCount = 0;
+            Debug.WriteLine(String.Format("Init", _tbcCurrentNumber.Text, _robotCount, _robotCountLimit));
 
             // ボットが何回カウントするか決定する
             Random rnd = new Random();
@@ -298,9 +340,11 @@ namespace _30GameApp
         /// </summary>
         /// <param name="sender">イベント発生元</param>
         /// <param name="e">イベント変数</param>
-        private void _timer_Tick(object sender, object e)
+        private async void _timer_Tick(object sender, object e)
         {
+            // タイマを停止する
             _timer.Stop();
+            _timer.Tick -= _timer_Tick;
 
             // ボットのカウント回数を更新し、
             // カウント回数をオーバーしていた場合はカウントを停止する。
@@ -308,18 +352,22 @@ namespace _30GameApp
             if (_robotCount <= _robotCountLimit)
             {
                 // 現在の数字の表示を更新する
-                _tbcCurrentNumber.Text = (CurrentNumber + 1).ToString();
-                Debug.WriteLine(String.Format("Robot:{0} {1} vs {2}", _tbcCurrentNumber.Text, _robotCount, _robotCountLimit));
+                var newNumber = (CurrentNumber + 1).ToString();
+                _vm.Number = newNumber;
+                await ReadLoud(newNumber);
 
                 if (_tbcCurrentNumber.Text == COUNT_JOKER.ToString())
                 {
+                    // ゲストが買った場合
                     SwitchBaseGrid(e_BaseGrid.Result);
                     var resourceLoader = ResourceLoader.GetForCurrentView();
-                    _tbcResult.Text = resourceLoader.GetString("MessageWin");
+                    _vm.Result = resourceLoader.GetString("MessageWin");
                 }
                 else
                 {
+                    // ボットがカウントを続ける
                     _timer.Start();
+                    _timer.Tick += _timer_Tick;
                 }
             }
             else

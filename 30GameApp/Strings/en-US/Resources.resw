@@ -118,10 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="MessageLose" xml:space="preserve">
-    <value>!!Lose!!</value>
+    <value>Lose</value>
+  </data>
+  <data name="MessageNext" xml:space="preserve">
+    <value>Next</value>
   </data>
   <data name="MessageWin" xml:space="preserve">
-    <value>!!Win!!</value>
+    <value>Win</value>
   </data>
   <data name="_btnHelp.Content" xml:space="preserve">
     <value>Help</value>

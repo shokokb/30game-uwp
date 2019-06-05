@@ -119,9 +119,9 @@
   </resheader>
   <data name="Explanation" xml:space="preserve">
     <value>1から30までを数えて「30」を言った方が負けるゲームです。
-最初に、かいしを押してください。
+最初に、「かいし」ボタンを押してください。
 次に、ロボットが数字を読み上げます。一度に読み上げるのは３つまでです。
-次に、あなたが数字を選びます。一度に選択できるのは３つまでです。つぎを押すと、ロボットの番になります。
+次に、あなたが数字を選びます。一度に選択できるのは３つまでです。「つぎ」ボタンを押すと、ロボットの番になります。
 最後に、ロボットが30を言った場合はあなたの勝ち、あなたが30を言った場合は負けです。</value>
   </data>
   <data name="MessageLose" xml:space="preserve">
@@ -129,6 +129,9 @@
   </data>
   <data name="MessageNext" xml:space="preserve">
     <value>つぎ</value>
+  </data>
+  <data name="MessageVolumeChanged" xml:space="preserve">
+    <value>音の大きさが変更されました</value>
   </data>
   <data name="MessageWin" xml:space="preserve">
     <value>あなたのかち</value>
@@ -147,5 +150,8 @@
   </data>
   <data name="_btnStart.Content" xml:space="preserve">
     <value>かいし</value>
+  </data>
+  <data name="_sldVolume.Header" xml:space="preserve">
+    <value>おとのおおきさ</value>
   </data>
 </root>

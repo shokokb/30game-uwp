@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Globalization;
@@ -23,22 +22,7 @@ namespace _30GameApp
         /// ビューモデル
         /// </summary>
         ViewModel _vm;
-
-        ///// <summary>
-        ///// ボットカウント用のカウンタ
-        ///// </summary>
-        //private DispatcherTimer _timer;
-
-        /// <summary>
-        /// ボットがどこまでカウントしたか(0, 1, 2, 3)
-        /// </summary>
-        private int _robotCount = 0;
-
-        /// <summary>
-        /// ボットがカウントする回数(1, 2, 3)
-        /// </summary>
-        private int _robotCountLimit = 0;
-
+        
         /// <summary>
         /// 勝ち負けが決まる数字
         /// </summary>
@@ -136,10 +120,20 @@ namespace _30GameApp
             _btnPushRight.Tapped += _btnPushNumber_Tapped;
             _btnNext.Tapped += _btnNext_Tapped;
             _btnHelp.Tapped += _btnHelp_Tapped;
+            _btnReplay.Tapped += _btnReplay_Tapped;
+            _btnQuit.Tapped += _btnQuit_Tapped;
 
             // スタート画面を表示する
             SwitchBaseGrid(e_BaseGrid.Start);
 
+            // アセンブリ情報のバージョンを取得し、バージョンを画面に表示する
+            var versionInfo = Windows.ApplicationModel.Package.Current.Id.Version;
+            _tbcVersion.Text = String.Format(
+                               "Ver. {0}.{1}.{2}.{3}",
+                               versionInfo.Major, versionInfo.Minor,
+                               versionInfo.Build, versionInfo.Revision);
+
+            // ビューモデルを設定する
             _vm = new ViewModel();
             DataContext = _vm;
         }
@@ -150,18 +144,27 @@ namespace _30GameApp
         /// <param name="e">イベント変数</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // _timer = new DispatcherTimer();
             // 表示を英語に切り替える
-            // ApplicationLanguages.PrimaryLanguageOverride = "en";
+            ApplicationLanguages.PrimaryLanguageOverride = "en";
         }
 
         /// <summary>
-        /// ゲーム開始
+        /// ゲストが「かいし」ボタンを押したとき、ゲームを開始する
         /// </summary>
         /// <param name="sender">イベントの発生元</param>
         /// <param name="e">イベント変数</param>
         private async void _btnStart_Tapped(object sender, TappedRoutedEventArgs e)
         {
+            await ReadLoud(_btnStart.Content.ToString());
+            await StartGame();
+        }
+
+        /// <summary>
+        /// ゲーム開始
+        /// </summary>
+        private async Task StartGame ()
+        {
+            _vm.Number = "";
             SwitchBaseGrid(e_BaseGrid.Game);            // ゲーム画面に切り替える
             await RobotCount();                         // ボットが数える
         }
@@ -216,17 +219,15 @@ namespace _30GameApp
         /// <returns>タスク</returns>
         private async Task ReadLoud(string i_content)
         {
-            if (_tswPlaySound.IsOn)
+            SpeechSynthesisStream myStream;
+            using (var mySynth = new SpeechSynthesizer())
             {
-                SpeechSynthesisStream myStream;
-                using (var mySynth = new SpeechSynthesizer())
-                {
-                    myStream = await mySynth.SynthesizeTextToStreamAsync(i_content.ToString());
-                }
-                _mediaElement.SetSource(myStream, myStream.ContentType);
-                _mediaElement.Play();
-                await Task.Delay(READ_INTERVAL);
+                myStream = await mySynth.SynthesizeTextToStreamAsync(i_content.ToString());
             }
+            _mediaElement.Volume = _sldVolume.Value / 100;
+            _mediaElement.SetSource(myStream, myStream.ContentType);
+            _mediaElement.Play();
+            await Task.Delay(READ_INTERVAL);
         }
 
         /// <summary>
@@ -260,15 +261,14 @@ namespace _30GameApp
             // ゲスト押下用のコントロールを切り替える
             SwitchGuestControl(e_GameStatus.RobotCount);
 
-            // ボットのカウント数を初期化する
-            _robotCount = 0;
+            // ボットのカウント数(ボットがどこまでカウントしたか(0, 1, 2, 3))を初期化する
+            int robotCount = 0;
 
-            // ボットが何回カウントするか決定する
-            Random rnd = new Random();
-            _robotCountLimit = rnd.Next(COUNT_LIMIT) + 1;
+            // ボットがカウントする回数(1, 2, 3)を決定する
+            int robotCountLimit = (new Random()).Next(COUNT_LIMIT) + 1;
 
             // ボットが数をカウントし始める
-            for (_robotCount = 1; _robotCount <= _robotCountLimit; _robotCount++)
+            for (robotCount = 1; robotCount <= robotCountLimit; robotCount++)
             {
                 // ボットのカウント回数を更新し、
                 // カウント回数をオーバーしていた場合はカウントを停止する。
@@ -277,7 +277,13 @@ namespace _30GameApp
                 _vm.Number = newNumber;
                 await ReadLoud(newNumber);
 
-                if (_tbcCurrentNumber.Text == COUNT_JOKER.ToString())
+
+                if (_tbcCurrentNumber.Text == (COUNT_JOKER - 1).ToString())
+                {
+                    // 29の場合はここで止める
+                    break;
+                }
+                else if (_tbcCurrentNumber.Text == COUNT_JOKER.ToString())
                 {
                     // ゲストが勝った場合
                     SwitchBaseGrid(e_BaseGrid.Result);
@@ -378,6 +384,28 @@ namespace _30GameApp
             MessageDialog dialog = new MessageDialog(message);
             await ReadLoud(message);
             await dialog.ShowAsync();
+        }
+
+        /// <summary>
+        /// ゲストが「もういちど」を押したときに、ゲームを再開する
+        /// </summary>
+        /// <param name="sender">イベントの発生元</param>
+        /// <param name="e">イベント変数</param>
+        private async void _btnReplay_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            await ReadLoud(_btnReplay.Content.ToString());
+            await StartGame();
+        }
+
+        /// <summary>
+        /// ゲストが「おわり」を押したときに、アプリケーションを終了する
+        /// </summary>
+        /// <param name="sender">イベントの発生元</param>
+        /// <param name="e">イベント変数</param>
+
+        private void _btnQuit_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Application.Current.Exit();
         }
     }
 }

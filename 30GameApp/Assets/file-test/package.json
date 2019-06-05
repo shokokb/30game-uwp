@@ -1,0 +1,13 @@
+{
+  "name": "file-test",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.42",
+    "fs": "0.0.1-security",
+    "meteor-node-stubs": "^0.3.2",
+    "path": "^0.12.7"
+  }
+}

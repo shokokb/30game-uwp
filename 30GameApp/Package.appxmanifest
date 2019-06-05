@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="2ae7dfd1-b9f6-4e23-9255-ee4c53ea98a8" Publisher="CN=shoko_kb" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="2ae7dfd1-b9f6-4e23-9255-ee4c53ea98a8" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="38474shokohifivy.30Games" Publisher="CN=9F9FC7F5-C3C5-4187-8811-3D803E07ABDC" Version="1.1.0.0" />
+  <mp:PhoneIdentity PhoneProductId="177e2334-1aa2-419e-a87f-13fb7ded705a" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>30GameApp</DisplayName>
-    <PublisherDisplayName>shoko_kb</PublisherDisplayName>
+    <DisplayName>30 Games</DisplayName>
+    <PublisherDisplayName>shoko_hifivy</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
@@ -15,10 +15,15 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="_30GameApp.App">
-      <uap:VisualElements DisplayName="30 Game" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="30 Game" BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png">
+      <uap:VisualElements DisplayName="30 Games" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="自分とWindowsでお互いに３つ以下の数を言い合い、最終的に「30」を言わされた方が負けのゲームです。" BackgroundColor="transparent">
+        <uap:LockScreen Notification="badgeAndTileText" BadgeLogo="Assets\BadgeLogo.png" />
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" ShortName="30 Game" Square310x310Logo="Assets\LargeTile.png" Square71x71Logo="Assets\SmallTile.png">
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="landscape" />
+          <uap:Rotation Preference="landscapeFlipped" />
+        </uap:InitialRotationPreference>
       </uap:VisualElements>
     </Application>
   </Applications>

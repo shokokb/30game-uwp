@@ -47,7 +47,7 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="400"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid x:Name="_grdStart" Style="{StaticResource BaseGrid}" Grid.Row="1" Grid.Column="1">
@@ -82,14 +82,16 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock x:Name="_tbcResult" Text="{Binding Result}" Style="{StaticResource Result}" Grid.Row="0" Grid.ColumnSpan="2"/>
+                    <TextBlock x:Name="_tbcResult" Text="{Binding Result}" Style="{StaticResource Result}" Grid.Row="0" Grid.ColumnSpan="2" FontSize="60" HorizontalAlignment="Stretch"/>
                     <Button x:Uid="_btnReplay" x:Name="_btnReplay" Content="Replay" Style="{StaticResource Start}" Grid.Row="1" Grid.Column="0"/>
                     <Button x:Uid="_btnQuit" x:Name="_btnQuit" Content="Qiit" Style="{StaticResource Start}" Grid.Row="1" Grid.Column="1"/>
                 </Grid>
             </Grid>
-            <ToggleSwitch x:Name="_tswPlaySound" Grid.Column="2" Header="ToggleSwitch" HorizontalAlignment="Left" Margin="314,0,0,66" Grid.Row="2" VerticalAlignment="Bottom" IsOn="True"/>
+            <StackPanel Grid.Column="2" Grid.Row="2" VerticalAlignment="Bottom" Margin="16,16,32,32">
+                <Slider x:Name="_sldVolume" x:Uid="_sldVolume" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="116" Header="Volume" Value="50" RenderTransformOrigin="1.431,0.445"/>
+                <TextBlock x:Name="_tbcVersion" TextAlignment="Right" Text="Ver.XX.XX.XX.XX" VerticalAlignment="Bottom"></TextBlock>
+            </StackPanel>
         </Grid>
-        <TextBlock TextAlignment="Right" Text="30 Game Ver.1.0.0" VerticalAlignment="Bottom"></TextBlock>
         <MediaElement x:Name="_mediaElement" Height="36" Margin="0,36,0,0" VerticalAlignment="Top" Width="198"/>
     </Grid>
 </Page>
